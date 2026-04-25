@@ -1,19 +1,27 @@
 import React from 'react';
 
+const steps = [
+  { num: '01', title: 'We train your agent', body: 'We ingest your service catalogue, pricing, FAQs, and booking rules in a dedicated onboarding session.' },
+  { num: '02', title: 'Your number goes live', body: 'We forward your existing business number (or provide a new one) to your AI agent in minutes.' },
+  { num: '03', title: 'Jobs fill your calendar', body: 'Every qualified call is booked directly into your CRM — no manual entry, no missed leads.' },
+];
+
 const Demo = () => (
   <section id="how-it-works" className="section" style={{
     borderTop: '1px solid rgba(79,70,229,0.08)',
     background: 'linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%)',
+    paddingTop: '9rem',
+    paddingBottom: '9rem',
   }}>
-    <div className="container" style={{ textAlign: 'center' }}>
+    <div className="container">
 
-      <div style={{ marginBottom: '4rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
         <div className="label-pill" style={{ marginBottom: '1.5rem' }}>
           <span className="dot" />
           Live demo
         </div>
         <h2 style={{
-          fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
+          fontSize: 'clamp(2.2rem, 4vw, 3rem)',
           fontWeight: 800,
           color: '#0f0f2e',
           marginBottom: '1.25rem',
@@ -29,10 +37,40 @@ const Demo = () => (
             AI in action.
           </span>
         </h2>
-        <p style={{ color: '#4b5563', fontSize: '1.05rem', maxWidth: '560px', margin: '0 auto', lineHeight: 1.7 }}>
+        <p style={{ color: '#4b5563', fontSize: '1.1rem', maxWidth: '580px', margin: '0 auto', lineHeight: 1.8 }}>
           Listen to our voice agent handle a real inbound home service enquiry —
           gathering lead details and booking the appointment with zero friction.
+          This is what your callers will experience from day one.
         </p>
+      </div>
+
+      {/* How it works steps */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '2rem',
+        marginBottom: '5rem',
+      }}>
+        {steps.map((step, i) => (
+          <div key={i} className="glass-panel" style={{ padding: '2rem 2.25rem' }}>
+            <div style={{
+              fontSize: '0.75rem',
+              fontWeight: 800,
+              letterSpacing: '0.1em',
+              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              marginBottom: '1rem',
+            }}>
+              STEP {step.num}
+            </div>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f0f2e', marginBottom: '0.75rem', lineHeight: 1.3 }}>
+              {step.title}
+            </h3>
+            <p style={{ color: '#4b5563', fontSize: '0.92rem', lineHeight: 1.7 }}>{step.body}</p>
+          </div>
+        ))}
       </div>
 
       <div style={{ position: 'relative', maxWidth: '960px', margin: '0 auto' }}>

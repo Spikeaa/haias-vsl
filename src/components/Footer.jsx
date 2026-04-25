@@ -3,33 +3,66 @@ import React from 'react';
 const Footer = () => (
   <footer style={{
     borderTop: '1px solid rgba(79,70,229,0.1)',
-    padding: '7rem 0 3rem',
+    padding: '9rem 0 3.5rem',
     position: 'relative',
     overflow: 'hidden',
     background: 'linear-gradient(180deg, #f5f7ff 0%, #eef0ff 100%)',
   }}>
-    {/* Ambient glow behind CTA */}
     <div style={{
       position: 'absolute',
-      top: '10%',
+      top: '8%',
       left: '50%',
       transform: 'translateX(-50%)',
-      width: '60vw',
-      height: '40vh',
-      background: 'radial-gradient(ellipse at center, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.05), transparent 65%)',
-      filter: 'blur(60px)',
+      width: '70vw',
+      height: '50vh',
+      background: 'radial-gradient(ellipse at center, rgba(79, 70, 229, 0.09), rgba(124, 58, 237, 0.06), transparent 65%)',
+      filter: 'blur(70px)',
       pointerEvents: 'none',
       zIndex: 0,
     }} />
 
     <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
+
+      {/* Pre-CTA trust stats */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '4rem',
+        flexWrap: 'wrap',
+        marginBottom: '4rem',
+      }}>
+        {[
+          { value: '20+', label: 'Businesses Automated' },
+          { value: '$1.2M+', label: 'Revenue Generated' },
+          { value: '94%', label: 'Call Answer Rate' },
+        ].map((stat, i) => (
+          <div key={i} style={{ textAlign: 'center' }}>
+            <div style={{
+              fontSize: '2.25rem',
+              fontWeight: 900,
+              letterSpacing: '-0.04em',
+              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              marginBottom: '0.25rem',
+            }}>
+              {stat.value}
+            </div>
+            <div style={{ color: '#6b7280', fontSize: '0.875rem', fontWeight: 500 }}>{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
       <h2 style={{
-        fontSize: 'clamp(2.5rem, 5vw, 3.75rem)',
+        fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)',
         fontWeight: 900,
         letterSpacing: '-0.035em',
         color: '#0f0f2e',
         lineHeight: 1.05,
         marginBottom: '1.5rem',
+        maxWidth: '720px',
+        margin: '0 auto 1.5rem',
       }}>
         Stop letting{' '}
         <span style={{
@@ -44,31 +77,40 @@ const Footer = () => (
       </h2>
       <p style={{
         color: '#4b5563',
-        fontSize: '1.1rem',
-        marginBottom: '3rem',
-        maxWidth: '520px',
-        margin: '0 auto 3rem',
-        lineHeight: 1.7,
+        fontSize: '1.15rem',
+        maxWidth: '540px',
+        margin: '0 auto 3.5rem',
+        lineHeight: 1.8,
       }}>
-        Join the home service companies scaling effortlessly with AI voice agents that never sleep.
+        Join the home service companies scaling effortlessly with AI voice agents
+        that answer every call, qualify every lead, and book every job — while you sleep.
       </p>
 
-      <a
-        href="#apply"
-        className="btn-primary"
-        style={{ padding: '1.1rem 3rem', fontSize: '1rem', marginBottom: '7rem', display: 'inline-flex' }}
-      >
-        Book Your Demo Now
-      </a>
+      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '8rem' }}>
+        <a
+          href="#apply"
+          className="btn-primary"
+          style={{ padding: '1.1rem 3rem', fontSize: '1rem' }}
+        >
+          Book Your Demo Now
+        </a>
+        <a
+          href="#how-it-works"
+          className="btn-secondary"
+          style={{ padding: '1.1rem 2rem', fontSize: '1rem' }}
+        >
+          See How It Works
+        </a>
+      </div>
 
       <div style={{
         borderTop: '1px solid rgba(79,70,229,0.1)',
-        paddingTop: '2.5rem',
+        paddingTop: '2.75rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: '1rem',
+        gap: '1.25rem',
         color: '#9ca3af',
         fontSize: '0.875rem',
       }}>
@@ -79,9 +121,9 @@ const Footer = () => (
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
-          fontSize: '1rem',
+          fontSize: '1.05rem',
         }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <defs>
               <linearGradient id="footerIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#4f46e5" />
@@ -95,23 +137,18 @@ const Footer = () => (
           HAIAS
         </div>
         <div style={{ color: '#6b7280' }}>&copy; {new Date().getFullYear()} HAIAS Solutions. All rights reserved.</div>
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
-          <a
-            href="#"
-            style={{ color: '#6b7280', transition: 'color 0.2s' }}
-            onMouseOver={e => e.target.style.color = '#0f0f2e'}
-            onMouseOut={e => e.target.style.color = '#6b7280'}
-          >
-            Privacy Policy
-          </a>
-          <a
-            href="#"
-            style={{ color: '#6b7280', transition: 'color 0.2s' }}
-            onMouseOver={e => e.target.style.color = '#0f0f2e'}
-            onMouseOut={e => e.target.style.color = '#6b7280'}
-          >
-            Terms of Service
-          </a>
+        <div style={{ display: 'flex', gap: '1.75rem' }}>
+          {['Privacy Policy', 'Terms of Service'].map(link => (
+            <a
+              key={link}
+              href="#"
+              style={{ color: '#6b7280', transition: 'color 0.2s' }}
+              onMouseOver={e => e.target.style.color = '#0f0f2e'}
+              onMouseOut={e => e.target.style.color = '#6b7280'}
+            >
+              {link}
+            </a>
+          ))}
         </div>
       </div>
     </div>
