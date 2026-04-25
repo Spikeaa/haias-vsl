@@ -83,11 +83,12 @@ const iconBoxStyle = {
   width: '54px',
   height: '54px',
   borderRadius: '14px',
-  background: 'linear-gradient(135deg, rgba(79,70,229,0.1), rgba(124,58,237,0.1))',
+  background: 'linear-gradient(135deg, rgba(0,200,255,0.1), rgba(79,70,229,0.12))',
+  border: '1px solid rgba(0,200,255,0.18)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#4f46e5',
+  color: '#0099cc',
   flexShrink: 0,
 };
 
@@ -167,8 +168,8 @@ const Services = () => (
       <div style={{
         marginTop: '5rem',
         padding: '2.5rem 3rem',
-        background: 'linear-gradient(135deg, rgba(79,70,229,0.06), rgba(124,58,237,0.06))',
-        border: '1px solid rgba(79,70,229,0.12)',
+        background: 'linear-gradient(135deg, rgba(0,200,255,0.06), rgba(79,70,229,0.07), rgba(124,58,237,0.06))',
+        border: '1px solid rgba(0,200,255,0.18)',
         borderRadius: '20px',
         display: 'flex',
         justifyContent: 'space-around',
@@ -176,6 +177,7 @@ const Services = () => (
         flexWrap: 'wrap',
         gap: '2rem',
         textAlign: 'center',
+        boxShadow: '0 0 40px rgba(0,200,255,0.06)',
       }}>
         {[
           { value: '20+', label: 'Active Partners' },
@@ -188,7 +190,7 @@ const Services = () => (
               fontSize: '1.75rem',
               fontWeight: 900,
               letterSpacing: '-0.03em',
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              background: 'linear-gradient(135deg, #00c8ff, #4f46e5)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',

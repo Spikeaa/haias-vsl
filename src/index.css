@@ -13,6 +13,8 @@
   --accent-2: #7c3aed;
   --accent-dim: rgba(79, 70, 229, 0.1);
   --accent-glow: rgba(79, 70, 229, 0.08);
+  --electric: #00c8ff;
+  --electric-dim: rgba(0, 200, 255, 0.1);
   --blue-mid: #3b82f6;
   --purple-mid: #8b5cf6;
 
@@ -198,8 +200,8 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--accent-dim);
-  border: 1px solid rgba(79, 70, 229, 0.2);
+  background: linear-gradient(135deg, var(--electric-dim), var(--accent-dim));
+  border: 1px solid rgba(0, 200, 255, 0.3);
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 0.78rem;
@@ -207,19 +209,21 @@ a {
   color: var(--accent);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.1);
 }
 
 .label-pill .dot {
   width: 6px;
   height: 6px;
-  background: var(--accent);
+  background: var(--electric);
   border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 200, 255, 0.8);
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.7); }
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 6px rgba(0,200,255,0.8); }
+  50% { opacity: 0.5; transform: scale(0.7); box-shadow: 0 0 3px rgba(0,200,255,0.4); }
 }
 
 /* ─── Animations ────────────────────────────────── */

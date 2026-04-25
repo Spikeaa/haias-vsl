@@ -41,7 +41,7 @@ const Footer = () => (
               fontSize: '2.25rem',
               fontWeight: 900,
               letterSpacing: '-0.04em',
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              background: 'linear-gradient(135deg, #00c8ff, #4f46e5)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',

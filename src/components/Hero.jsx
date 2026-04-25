@@ -30,11 +30,12 @@ const OrbCanvas = () => {
     window.addEventListener('resize', resize);
 
     const orbs = [
-      { x: 0.28, y: 0.35, r: 280, color: [124, 58, 237],  speed: 0.0008 },
-      { x: 0.72, y: 0.30, r: 220, color: [59, 130, 246],  speed: 0.0011 },
-      { x: 0.50, y: 0.70, r: 180, color: [79, 70, 229],   speed: 0.0006 },
-      { x: 0.15, y: 0.65, r: 140, color: [139, 92, 246],  speed: 0.0014 },
-      { x: 0.85, y: 0.60, r: 160, color: [96, 165, 250],  speed: 0.0010 },
+      { x: 0.28, y: 0.35, r: 300, color: [124, 58, 237],  speed: 0.0008 },
+      { x: 0.72, y: 0.28, r: 240, color: [0, 200, 255],   speed: 0.0011 },
+      { x: 0.50, y: 0.65, r: 200, color: [79, 70, 229],   speed: 0.0006 },
+      { x: 0.12, y: 0.60, r: 160, color: [0, 180, 255],   speed: 0.0014 },
+      { x: 0.88, y: 0.55, r: 180, color: [139, 92, 246],  speed: 0.0010 },
+      { x: 0.60, y: 0.20, r: 140, color: [0, 210, 255],   speed: 0.0013 },
     ];
 
     const draw = () => {
@@ -119,22 +120,21 @@ const CyclingWord = () => {
 
 const TopBanner = () => (
   <div style={{
-    background: 'linear-gradient(90deg, rgba(79,70,229,0.08), rgba(124,58,237,0.08))',
-    borderBottom: '1px solid rgba(79,70,229,0.15)',
+    background: 'linear-gradient(90deg, rgba(0,200,255,0.07), rgba(79,70,229,0.08), rgba(124,58,237,0.07))',
+    borderBottom: '1px solid rgba(0,200,255,0.2)',
     color: '#374151',
     textAlign: 'center',
     padding: '0.6rem 1rem',
     fontSize: '0.82rem',
     fontWeight: 500,
     letterSpacing: '0.04em',
+    boxShadow: '0 1px 0 rgba(0,200,255,0.08)',
   }}>
     <span style={{
-      background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text',
+      color: '#00c8ff',
       fontWeight: 700,
       marginRight: '0.6rem',
+      textShadow: '0 0 12px rgba(0,200,255,0.4)',
     }}>Limited Time:</span>
     100% off onboarding fee for new home service partners
   </div>
@@ -306,7 +306,7 @@ const Hero = () => (
             top: '-13px',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+            background: 'linear-gradient(135deg, #00c8ff, #4f46e5)',
             color: '#ffffff',
             padding: '5px 18px',
             borderRadius: '999px',
@@ -316,6 +316,7 @@ const Hero = () => (
             textTransform: 'uppercase',
             zIndex: 10,
             whiteSpace: 'nowrap',
+            boxShadow: '0 0 16px rgba(0,200,255,0.35)',
           }}>
             Watch Live Demo
           </div>

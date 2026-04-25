@@ -1,151 +1,134 @@
 import React, { useEffect, useRef } from 'react';
 
-/* Recursive bolt segment builder */
-function buildBolt(x1, y1, x2, y2, roughness, depth, segments) {
-  if (depth === 0) {
-    segments.push([x1, y1, x2, y2]);
-    return;
-  }
+function buildWeb(x1, y1, x2, y2, roughness, depth, segs) {
+  if (depth === 0) { segs.push([x1, y1, x2, y2]); return; }
   const mx = (x1 + x2) / 2 + (Math.random() - 0.5) * roughness;
-  const my = (y1 + y2) / 2 + (Math.random() - 0.5) * roughness;
-  buildBolt(x1, y1, mx, my, roughness * 0.55, depth - 1, segments);
-  buildBolt(mx, my, x2, y2, roughness * 0.55, depth - 1, segments);
-  /* occasional branch */
-  if (depth === 2 && Math.random() < 0.45) {
-    const bx = mx + (Math.random() - 0.5) * roughness * 1.4;
-    const by = my + roughness * (0.6 + Math.random() * 0.8);
-    buildBolt(mx, my, bx, by, roughness * 0.4, depth - 1, segments);
+  const my = (y1 + y2) / 2 + (Math.random() - 0.5) * roughness * 0.5;
+  buildWeb(x1, y1, mx, my, roughness * 0.5, depth - 1, segs);
+  buildWeb(mx, my, x2, y2, roughness * 0.5, depth - 1, segs);
+  /* more frequent branching for web-like spread */
+  if (Math.random() < 0.6) {
+    const bx = mx + (Math.random() - 0.5) * roughness * 1.6;
+    const by = my + (Math.random() - 0.5) * roughness * 1.2;
+    buildWeb(mx, my, bx, by, roughness * 0.35, Math.max(depth - 2, 0), segs);
   }
 }
 
-function randomBolt(W, H) {
-  /* start from a random top-edge point, end somewhere below */
-  const startX = W * (0.1 + Math.random() * 0.8);
-  const startY = -10;
-  const endX = startX + (Math.random() - 0.5) * W * 0.35;
-  const endY = H * (0.25 + Math.random() * 0.55);
-  const roughness = 60 + Math.random() * 80;
+function makeStrand(W, H) {
+  /* anchor two random points anywhere on the viewport */
+  const sx = W * (0.05 + Math.random() * 0.9);
+  const sy = H * (0.02 + Math.random() * 0.7);
+  const ex = sx + (Math.random() - 0.5) * W * 0.5;
+  const ey = sy + (Math.random() - 0.5) * H * 0.4;
+  const roughness = 40 + Math.random() * 60;
   const segs = [];
-  buildBolt(startX, startY, endX, endY, roughness, 5, segs);
-  return segs;
+  buildWeb(sx, sy, ex, ey, roughness, 5, segs);
+  const blue = Math.random() < 0.5;
+  return {
+    segs,
+    life: 0,
+    maxLife: 14000 + Math.random() * 8000, /* very long — stable, slow dissolve */
+    blue,
+  };
 }
 
 const LightningCanvas = () => {
-  const canvasRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let animId;
-    let bolts = [];   /* [{segs, alpha, life, maxLife}] */
-    let nextBolt = 800 + Math.random() * 2400;
-    let lastTs = null;
+    let strands = [];
+    let nextIn = 3000 + Math.random() * 4000;
+    let prev = null;
 
     const resize = () => {
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
       canvas.style.width = window.innerWidth + 'px';
       canvas.style.height = window.innerHeight + 'px';
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener('resize', resize);
 
-    const spawnBolt = () => {
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      const segs = randomBolt(W, H);
-      const maxLife = 320 + Math.random() * 200;
-      bolts.push({ segs, alpha: 0, life: 0, maxLife });
-      /* sometimes fire a second quick bolt nearby for realism */
-      if (Math.random() < 0.3) {
-        setTimeout(() => {
-          const segs2 = randomBolt(W, H);
-          bolts.push({ segs: segs2, alpha: 0, life: 0, maxLife: 220 });
-        }, 60 + Math.random() * 80);
-      }
+    const spawn = () => {
+      const W = window.innerWidth, H = window.innerHeight;
+      strands.push(makeStrand(W, H));
     };
 
-    const drawBolt = (bolt) => {
-      /* envelope: flash in fast, decay slowly */
-      const progress = bolt.life / bolt.maxLife;
-      let alpha;
-      if (progress < 0.08) {
-        alpha = progress / 0.08;           /* fast flash in */
-      } else {
-        alpha = 1 - (progress - 0.08) / 0.92; /* slow fade out */
-      }
-      alpha = Math.max(0, alpha) * 0.13;   /* cap at very subtle */
+    const drawStrand = (s) => {
+      const p = s.life / s.maxLife;
+      /* slow fade in over 25%, hold, gentle fade out over last 20% */
+      let a;
+      if (p < 0.25) a = p / 0.25;
+      else if (p < 0.8) a = 1;
+      else a = 1 - (p - 0.8) / 0.2;
+      a = Math.max(0, a);
 
-      const W = window.innerWidth;
-      const H = window.innerHeight;
+      /* very low opacity — web-like gossamer */
+      const baseAlpha = a * 0.045;
 
-      bolt.segs.forEach(([x1, y1, x2, y2]) => {
-        /* glow layer */
+      const blue = s.blue;
+      /* electric blue: 0,200,255  |  purple: 150,80,255 */
+      const r = blue ? 0   : 150;
+      const g = blue ? 200 : 80;
+      const b = blue ? 255 : 255;
+
+      s.segs.forEach(([x1, y1, x2, y2]) => {
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(139, 92, 246, ${alpha * 0.35})`;
-        ctx.lineWidth = 4;
-        ctx.shadowColor = 'rgba(124, 58, 237, 0.6)';
-        ctx.shadowBlur = 12;
-        ctx.stroke();
-
-        /* core layer */
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(196, 181, 253, ${alpha * 0.9})`;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${baseAlpha})`;
         ctx.lineWidth = 0.8;
-        ctx.shadowBlur = 0;
+        ctx.shadowColor = `rgba(${r},${g},${b},${baseAlpha * 3})`;
+        ctx.shadowBlur = 6;
         ctx.stroke();
       });
-
       ctx.shadowBlur = 0;
-      bolt.alpha = alpha;
     };
 
     const frame = (ts) => {
-      if (!lastTs) lastTs = ts;
-      const dt = ts - lastTs;
-      lastTs = ts;
+      if (!prev) prev = ts;
+      const dt = ts - prev; prev = ts;
+      const W = window.innerWidth, H = window.innerHeight;
 
-      const W = window.innerWidth;
-      const H = window.innerHeight;
       ctx.clearRect(0, 0, W, H);
 
-      nextBolt -= dt;
-      if (nextBolt <= 0) {
-        spawnBolt();
-        nextBolt = 1200 + Math.random() * 3500;
+      nextIn -= dt;
+      if (nextIn <= 0) {
+        spawn();
+        nextIn = 3000 + Math.random() * 4000;
       }
 
-      bolts = bolts.filter(b => b.life < b.maxLife);
-      bolts.forEach(b => {
-        b.life += dt;
-        drawBolt(b);
-      });
+      strands = strands.filter(s => s.life < s.maxLife);
+      strands.forEach(s => { s.life += dt; drawStrand(s); });
 
       animId = requestAnimationFrame(frame);
     };
 
+    /* seed a few strands immediately so the page isn't empty on load */
+    const W = window.innerWidth, H = window.innerHeight;
+    for (let i = 0; i < 5; i++) strands.push(makeStrand(W, H));
+
     animId = requestAnimationFrame(frame);
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
   }, []);
 
   return (
     <canvas
-      ref={canvasRef}
+      ref={ref}
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
+        top: 0, left: 0,
+        width: '100%', height: '100%',
         pointerEvents: 'none',
-        zIndex: 0,
+        zIndex: 1,
+        filter: 'blur(1.5px)',        /* soft blur for gossamer feel */
+        mixBlendMode: 'multiply',
       }}
     />
   );

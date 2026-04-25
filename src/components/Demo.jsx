@@ -57,10 +57,8 @@ const Demo = () => (
               fontSize: '0.75rem',
               fontWeight: 800,
               letterSpacing: '0.1em',
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: '#00b8e8',
+              textShadow: '0 0 8px rgba(0,200,255,0.25)',
               marginBottom: '1rem',
             }}>
               STEP {step.num}
