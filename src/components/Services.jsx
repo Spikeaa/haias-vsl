@@ -139,17 +139,14 @@ const Services = () => (
         {services.map((svc, i) => (
           <div
             key={i}
-            className="glass-panel"
+            className="glass-panel service-card"
             style={{
               padding: '2rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '1rem',
               cursor: 'default',
-              transition: 'transform 0.22s ease, box-shadow 0.22s ease',
             }}
-            onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; }}
-            onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             <div style={iconBoxStyle}>{svc.icon}</div>
             <div>

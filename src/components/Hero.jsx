@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const avatars = [
   "https://i.pravatar.cc/100?img=11",
@@ -10,80 +10,32 @@ const avatars = [
 
 const SERVICES_CYCLE = ['HVAC', 'Plumbing', 'Roofing', 'Electrical', 'Home Inspection'];
 
-/* Animated canvas orb background */
-const OrbCanvas = () => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let t = 0;
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const orbs = [
-      { x: 0.28, y: 0.35, r: 300, color: [124, 58, 237],  speed: 0.0008 },
-      { x: 0.72, y: 0.28, r: 240, color: [0, 200, 255],   speed: 0.0011 },
-      { x: 0.50, y: 0.65, r: 200, color: [79, 70, 229],   speed: 0.0006 },
-      { x: 0.12, y: 0.60, r: 160, color: [0, 180, 255],   speed: 0.0014 },
-      { x: 0.88, y: 0.55, r: 180, color: [139, 92, 246],  speed: 0.0010 },
-      { x: 0.60, y: 0.20, r: 140, color: [0, 210, 255],   speed: 0.0013 },
-    ];
-
-    const draw = () => {
-      const W = canvas.offsetWidth;
-      const H = canvas.offsetHeight;
-      ctx.clearRect(0, 0, W, H);
-
-      orbs.forEach((orb, i) => {
-        const phase = t * orb.speed * 1000 + i * 1.3;
-        const ox = W * orb.x + Math.sin(phase * 0.7) * 60;
-        const oy = H * orb.y + Math.cos(phase * 0.5) * 40;
-
-        const grad = ctx.createRadialGradient(ox, oy, 0, ox, oy, orb.r);
-        grad.addColorStop(0, `rgba(${orb.color.join(',')}, 0.18)`);
-        grad.addColorStop(0.5, `rgba(${orb.color.join(',')}, 0.07)`);
-        grad.addColorStop(1, `rgba(${orb.color.join(',')}, 0)`);
-
-        ctx.beginPath();
-        ctx.arc(ox, oy, orb.r, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-      });
-
-      t += 16;
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
+/* CSS-only orb background — no canvas, no flicker */
+const HeroOrbs = () => (
+  <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
+    {[
+      { w: 480, h: 380, top: '8%',  left: '4%',  blue: false, dur: 22, delay: 0   },
+      { w: 420, h: 340, top: '5%',  left: '58%', blue: true,  dur: 26, delay: -7  },
+      { w: 360, h: 300, top: '45%', left: '15%', blue: true,  dur: 20, delay: -4  },
+      { w: 400, h: 320, top: '40%', left: '65%', blue: false, dur: 24, delay: -11 },
+      { w: 300, h: 260, top: '70%', left: '40%', blue: true,  dur: 28, delay: -9  },
+      { w: 340, h: 280, top: '15%', left: '35%', blue: false, dur: 19, delay: -3  },
+    ].map((o, i) => (
+      <div key={i} style={{
         position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 0,
-      }}
-    />
-  );
-};
+        top: o.top, left: o.left,
+        width: o.w, height: o.h,
+        borderRadius: '50%',
+        background: o.blue
+          ? 'radial-gradient(ellipse at center, rgba(0,212,255,0.40) 0%, rgba(0,160,240,0.14) 50%, transparent 100%)'
+          : 'radial-gradient(ellipse at center, rgba(168,85,255,0.36) 0%, rgba(120,50,230,0.12) 50%, transparent 100%)',
+        filter: 'blur(55px)',
+        animation: `drift${i % 3} ${o.dur}s ease-in-out ${o.delay}s infinite`,
+        willChange: 'transform',
+      }} />
+    ))}
+  </div>
+);
 
 /* Cycling service word in headline */
 const CyclingWord = () => {
@@ -180,7 +132,7 @@ const Navbar = () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', fontWeight: 500, color: '#4b5563', fontSize: '0.9rem' }}>
       <a href="#features" style={{ transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#0f0f2e'} onMouseOut={e => e.target.style.color = '#4b5563'}>Features</a>
       <a href="#contact" style={{ transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#0f0f2e'} onMouseOut={e => e.target.style.color = '#4b5563'}>Contact</a>
-      <a href="#apply" className="btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.82rem' }}>Book a Demo</a>
+      <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.82rem' }}>Book a Demo</a>
     </div>
   </nav>
 );
@@ -204,7 +156,7 @@ const Hero = () => (
       background: 'linear-gradient(180deg, #f5f7ff 0%, #ffffff 60%)',
     }}>
 
-      <OrbCanvas />
+      <HeroOrbs />
 
       <div style={{
         position: 'relative',
@@ -265,7 +217,7 @@ const Hero = () => (
           flexWrap: 'wrap',
           marginBottom: '3rem',
         }}>
-          <a href="#demo" className="btn-primary">Book Your Demo</a>
+          <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary">Book Your Demo</a>
           <a href="#how-it-works" className="btn-secondary">See How It Works</a>
         </div>
 
@@ -290,7 +242,7 @@ const Hero = () => (
                 zIndex: avatars.length - i,
                 background: '#e5e7eb',
               }}>
-                <img src={src} alt="Client" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
+                <img src={src} alt="Client testimonial avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
               </div>
             ))}
           </div>

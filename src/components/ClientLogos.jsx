@@ -13,54 +13,67 @@ const logos = [
 
 const ClientLogos = () => (
   <section style={{
-    borderTop: '1px solid rgba(79,70,229,0.08)',
-    borderBottom: '1px solid rgba(79,70,229,0.08)',
-    padding: '3.5rem 0',
+    padding: '3rem 0',
     overflow: 'hidden',
     position: 'relative',
-    background: '#ffffff',
+    /* Dark strip so logos have real contrast */
+    background: 'linear-gradient(135deg, #0f0f2e 0%, #1a1040 50%, #0f0f2e 100%)',
   }}>
     <div style={{
       textAlign: 'center',
-      marginBottom: '2.5rem',
-      color: '#9ca3af',
-      fontSize: '0.75rem',
-      letterSpacing: '0.12em',
+      marginBottom: '2rem',
+      color: '#a5b4fc',
+      fontSize: '0.72rem',
+      letterSpacing: '0.16em',
       textTransform: 'uppercase',
-      fontWeight: 600,
+      fontWeight: 700,
     }}>
       Trusted by 20+ home service businesses
     </div>
 
     <div className="marquee">
-      <div className="marquee-content">
+      <div className="marquee-content" style={{ '--marquee-bg': '#0f0f2e' }}>
         {[...logos, ...logos].map((src, i) => (
-          <div key={i} style={{ flex: '0 0 auto', width: '180px', display: 'flex', justifyContent: 'center', padding: '0 1.5rem' }}>
+          <div key={`logo-${i}-${src}`} style={{
+            flex: '0 0 auto',
+            width: '160px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 1.5rem',
+          }}>
             <img
               src={src}
               alt={`Partner logo ${i}`}
+              loading="lazy"
               style={{
                 maxWidth: '100%',
                 height: 'auto',
-                maxHeight: '36px',
-                opacity: 0.4,
-                filter: 'grayscale(100%)',
+                maxHeight: '38px',
+                /* invert + brightness makes dark logos white on dark bg */
+                filter: 'brightness(0) invert(1)',
+                opacity: 0.75,
                 transition: 'opacity 0.3s ease, filter 0.3s ease',
               }}
-              loading="lazy"
               onMouseOver={e => {
-                e.currentTarget.style.filter = 'none';
                 e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 6px rgba(0,212,255,0.7))';
               }}
               onMouseOut={e => {
-                e.currentTarget.style.filter = 'grayscale(100%)';
-                e.currentTarget.style.opacity = '0.4';
+                e.currentTarget.style.opacity = '0.75';
+                e.currentTarget.style.filter = 'brightness(0) invert(1)';
               }}
             />
           </div>
         ))}
       </div>
     </div>
+
+    {/* Override marquee fade edges for dark bg */}
+    <style>{`
+      section .marquee::before { background: linear-gradient(to right, #0f0f2e 0%, transparent 100%) !important; }
+      section .marquee::after  { background: linear-gradient(to left,  #0f0f2e 0%, transparent 100%) !important; }
+    `}</style>
   </section>
 );
 

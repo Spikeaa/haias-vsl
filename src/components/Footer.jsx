@@ -49,7 +49,7 @@ const Footer = () => (
             }}>
               {stat.value}
             </div>
-            <div style={{ color: '#6b7280', fontSize: '0.875rem', fontWeight: 500 }}>{stat.label}</div>
+            <div style={{ color: '#4b5563', fontSize: '0.875rem', fontWeight: 500 }}>{stat.label}</div>
           </div>
         ))}
       </div>
@@ -88,7 +88,9 @@ const Footer = () => (
 
       <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '8rem' }}>
         <a
-          href="#apply"
+          href="https://calendar.app.google/5WEtyn69N7bX3Ppo7"
+          target="_blank"
+          rel="noopener noreferrer"
           className="btn-primary"
           style={{ padding: '1.1rem 3rem', fontSize: '1rem' }}
         >
@@ -111,7 +113,7 @@ const Footer = () => (
         alignItems: 'center',
         flexWrap: 'wrap',
         gap: '1.25rem',
-        color: '#9ca3af',
+        color: '#4b5563',
         fontSize: '0.875rem',
       }}>
         <div style={{
@@ -136,15 +138,16 @@ const Footer = () => (
           </svg>
           HAIAS
         </div>
-        <div style={{ color: '#6b7280' }}>&copy; {new Date().getFullYear()} HAIAS Solutions. All rights reserved.</div>
+        <div style={{ color: '#4b5563' }}>&copy; {new Date().getFullYear()} HAIAS Solutions. All rights reserved.</div>
         <div style={{ display: 'flex', gap: '1.75rem' }}>
           {['Privacy Policy', 'Terms of Service'].map(link => (
             <a
               key={link}
               href="#"
-              style={{ color: '#6b7280', transition: 'color 0.2s' }}
+              aria-disabled="true"
+              style={{ color: '#4b5563', transition: 'color 0.2s' }}
               onMouseOver={e => e.target.style.color = '#0f0f2e'}
-              onMouseOut={e => e.target.style.color = '#6b7280'}
+              onMouseOut={e => e.target.style.color = '#4b5563'}
             >
               {link}
             </a>
