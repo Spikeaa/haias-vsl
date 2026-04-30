@@ -376,6 +376,14 @@ a {
   transform: translateY(-4px);
 }
 
+/* ─── Hero CTA row ──────────────────────────────── */
+.hero-cta-row {
+  display: flex;
+  gap: 0.875rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
 /* ─── Mobile responsive breakpoints ────────────── */
 @media (max-width: 768px) {
   .section {
@@ -384,6 +392,11 @@ a {
 
   .container {
     padding: 0 1.25rem;
+  }
+
+  .hero-cta-row {
+    flex-wrap: wrap;
+    width: 100%;
   }
 
   .btn-primary,

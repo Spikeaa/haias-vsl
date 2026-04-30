@@ -311,15 +311,7 @@ const Hero = () => (
           trade you run.
         </p>
 
-        <div className="fade-in-up fade-in-up-4" style={{
-          display: 'flex',
-          gap: '0.875rem',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          marginBottom: '3rem',
-          width: '100%',
-          maxWidth: '420px',
-        }}>
+        <div className="hero-cta-row fade-in-up fade-in-up-4" style={{ marginBottom: '3rem' }}>
           <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary">Book Your Demo</a>
           <a href="#how-it-works" className="btn-secondary">See How It Works</a>
         </div>
