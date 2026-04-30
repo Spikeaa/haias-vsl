@@ -3,11 +3,49 @@ import React from 'react';
 const Footer = () => (
   <footer style={{
     borderTop: '1px solid rgba(79,70,229,0.1)',
-    padding: '9rem 0 3.5rem',
+    padding: '7rem 0 3.5rem',
     position: 'relative',
     overflow: 'hidden',
     background: 'linear-gradient(180deg, #f5f7ff 0%, #eef0ff 100%)',
   }}>
+    <style>{`
+      .footer-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+        margin-bottom: 3.5rem;
+      }
+      .footer-cta-btns {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 6rem;
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(79,70,229,0.1);
+        padding-top: 2.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        color: #4b5563;
+        font-size: 0.875rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.75rem;
+      }
+      @media (max-width: 640px) {
+        .footer-stats { gap: 2rem; }
+        .footer-cta-btns { flex-direction: column; align-items: stretch; margin-bottom: 4rem; }
+        .footer-bottom { flex-direction: column; text-align: center; align-items: center; }
+        .footer-links { justify-content: center; }
+      }
+    `}</style>
+
     <div style={{
       position: 'absolute',
       top: '8%',
@@ -23,14 +61,7 @@ const Footer = () => (
 
     <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
 
-      {/* Pre-CTA trust stats */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '4rem',
-        flexWrap: 'wrap',
-        marginBottom: '4rem',
-      }}>
+      <div className="footer-stats">
         {[
           { value: '20+', label: 'Businesses Automated' },
           { value: '$1.2M+', label: 'Revenue Generated' },
@@ -55,7 +86,7 @@ const Footer = () => (
       </div>
 
       <h2 style={{
-        fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)',
+        fontSize: 'clamp(2rem, 5.5vw, 4.25rem)',
         fontWeight: 900,
         letterSpacing: '-0.035em',
         color: '#0f0f2e',
@@ -77,22 +108,22 @@ const Footer = () => (
       </h2>
       <p style={{
         color: '#4b5563',
-        fontSize: '1.15rem',
+        fontSize: '1.05rem',
         maxWidth: '540px',
-        margin: '0 auto 3.5rem',
+        margin: '0 auto 3rem',
         lineHeight: 1.8,
       }}>
         Join the home service companies scaling effortlessly with AI voice agents
         that answer every call, qualify every lead, and book every job — while you sleep.
       </p>
 
-      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '8rem' }}>
+      <div className="footer-cta-btns">
         <a
           href="https://calendar.app.google/5WEtyn69N7bX3Ppo7"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary"
-          style={{ padding: '1.1rem 3rem', fontSize: '1rem' }}
+          style={{ padding: '1.1rem 2.5rem', fontSize: '1rem' }}
         >
           Book Your Demo Now
         </a>
@@ -105,17 +136,7 @@ const Footer = () => (
         </a>
       </div>
 
-      <div style={{
-        borderTop: '1px solid rgba(79,70,229,0.1)',
-        paddingTop: '2.75rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1.25rem',
-        color: '#4b5563',
-        fontSize: '0.875rem',
-      }}>
+      <div className="footer-bottom">
         <div style={{
           fontWeight: 800,
           color: '#0f0f2e',
@@ -139,7 +160,7 @@ const Footer = () => (
           HAIAS
         </div>
         <div style={{ color: '#4b5563' }}>&copy; {new Date().getFullYear()} HAIAS Solutions. All rights reserved.</div>
-        <div style={{ display: 'flex', gap: '1.75rem' }}>
+        <div className="footer-links">
           {['Privacy Policy', 'Terms of Service'].map(link => (
             <a
               key={link}

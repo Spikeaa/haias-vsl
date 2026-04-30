@@ -36,11 +36,11 @@ const ClientLogos = () => (
         {[...logos, ...logos].map((src, i) => (
           <div key={`logo-${i}-${src}`} style={{
             flex: '0 0 auto',
-            width: '160px',
+            width: '130px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: '0 1.5rem',
+            padding: '0 1rem',
           }}>
             <img
               src={src}

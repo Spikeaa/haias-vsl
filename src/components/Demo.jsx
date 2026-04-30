@@ -10,12 +10,10 @@ const Demo = () => (
   <section id="how-it-works" className="section" style={{
     borderTop: '1px solid rgba(79,70,229,0.08)',
     background: 'linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%)',
-    paddingTop: '9rem',
-    paddingBottom: '9rem',
   }}>
     <div className="container">
 
-      <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
         <div className="label-pill" style={{ marginBottom: '1.5rem' }}>
           <span className="dot" />
           Live demo
@@ -45,14 +43,20 @@ const Demo = () => (
       </div>
 
       {/* How it works steps */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '2rem',
-        marginBottom: '5rem',
-      }}>
+      <style>{`
+        .demo-steps {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+          margin-bottom: 4rem;
+        }
+        @media (max-width: 640px) {
+          .demo-steps { grid-template-columns: 1fr; }
+        }
+      `}</style>
+      <div className="demo-steps">
         {steps.map((step, i) => (
-          <div key={i} className="glass-panel" style={{ padding: '2rem 2.25rem' }}>
+          <div key={i} className="glass-panel" style={{ padding: '1.75rem 2rem' }}>
             <div style={{
               fontSize: '0.75rem',
               fontWeight: 800,

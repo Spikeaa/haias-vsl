@@ -10,7 +10,6 @@ const avatars = [
 
 const SERVICES_CYCLE = ['HVAC', 'Plumbing', 'Roofing', 'Electrical', 'Home Inspection'];
 
-/* CSS-only orb background — no canvas, no flicker */
 const HeroOrbs = () => (
   <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
     {[
@@ -37,7 +36,6 @@ const HeroOrbs = () => (
   </div>
 );
 
-/* Cycling service word in headline */
 const CyclingWord = () => {
   const [idx, setIdx] = React.useState(0);
   const [visible, setVisible] = React.useState(true);
@@ -63,7 +61,7 @@ const CyclingWord = () => {
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(8px)',
       transition: 'opacity 0.35s ease, transform 0.35s ease',
-      minWidth: '200px',
+      minWidth: '160px',
     }}>
       {SERVICES_CYCLE[idx]}
     </span>
@@ -92,50 +90,153 @@ const TopBanner = () => (
   </div>
 );
 
-const Navbar = () => (
-  <nav style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1.25rem 2rem',
-    position: 'absolute',
-    top: '40px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 100,
-    maxWidth: '1200px',
-    width: '100%',
-  }}>
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.6rem',
-      fontWeight: 800,
-      fontSize: '1.3rem',
-      letterSpacing: '-0.03em',
-      color: '#0f0f2e',
-      fontFamily: "'Outfit', sans-serif",
-    }}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <defs>
-          <linearGradient id="navIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4f46e5" />
-            <stop offset="100%" stopColor="#7c3aed" />
-          </linearGradient>
-        </defs>
-        <polygon points="12 2 2 7 12 12 22 7 12 2" stroke="url(#navIconGrad)" />
-        <polyline points="2 17 12 22 22 17" stroke="url(#navIconGrad)" />
-        <polyline points="2 12 12 17 22 12" stroke="url(#navIconGrad)" />
-      </svg>
-      HAIAS
-    </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', fontWeight: 500, color: '#4b5563', fontSize: '0.9rem' }}>
-      <a href="#features" style={{ transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#0f0f2e'} onMouseOut={e => e.target.style.color = '#4b5563'}>Features</a>
-      <a href="#contact" style={{ transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#0f0f2e'} onMouseOut={e => e.target.style.color = '#4b5563'}>Contact</a>
-      <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.82rem' }}>Book a Demo</a>
-    </div>
-  </nav>
-);
+const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      <style>{`
+        .haias-nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.25rem 2rem;
+          position: absolute;
+          top: 40px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 100;
+          max-width: 1200px;
+          width: 100%;
+        }
+        .haias-nav-links {
+          display: flex;
+          align-items: center;
+          gap: 2.5rem;
+          font-weight: 500;
+          color: #4b5563;
+          font-size: 0.9rem;
+        }
+        .haias-nav-links a { transition: color 0.2s; }
+        .haias-nav-links a:hover { color: #0f0f2e; }
+        .haias-hamburger {
+          display: none;
+          flex-direction: column;
+          gap: 5px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px;
+          z-index: 110;
+        }
+        .haias-hamburger span {
+          display: block;
+          width: 24px;
+          height: 2px;
+          background: #0f0f2e;
+          border-radius: 2px;
+          transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .haias-mobile-menu {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(255,255,255,0.97);
+          backdrop-filter: blur(12px);
+          z-index: 200;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+        .haias-mobile-menu.open { display: flex; }
+        .haias-mobile-close {
+          position: absolute;
+          top: 1.5rem;
+          right: 1.5rem;
+          background: none;
+          border: none;
+          font-size: 2rem;
+          cursor: pointer;
+          color: #0f0f2e;
+          line-height: 1;
+          padding: 8px;
+          min-width: 44px;
+          min-height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        @media (max-width: 768px) {
+          .haias-nav {
+            top: 40px;
+            padding: 1rem 1.25rem;
+          }
+          .haias-nav-links { display: none; }
+          .haias-hamburger { display: flex; }
+        }
+      `}</style>
+
+      <nav className="haias-nav">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.6rem',
+          fontWeight: 800,
+          fontSize: '1.3rem',
+          letterSpacing: '-0.03em',
+          color: '#0f0f2e',
+          fontFamily: "'Outfit', sans-serif",
+        }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <defs>
+              <linearGradient id="navIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#4f46e5" />
+                <stop offset="100%" stopColor="#7c3aed" />
+              </linearGradient>
+            </defs>
+            <polygon points="12 2 2 7 12 12 22 7 12 2" stroke="url(#navIconGrad)" />
+            <polyline points="2 17 12 22 22 17" stroke="url(#navIconGrad)" />
+            <polyline points="2 12 12 17 22 12" stroke="url(#navIconGrad)" />
+          </svg>
+          HAIAS
+        </div>
+
+        <div className="haias-nav-links">
+          <a href="#features">Features</a>
+          <a href="#contact">Contact</a>
+          <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.82rem' }}>Book a Demo</a>
+        </div>
+
+        <button
+          className="haias-hamburger"
+          aria-label="Open menu"
+          onClick={() => setMenuOpen(true)}
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      <div className={`haias-mobile-menu${menuOpen ? ' open' : ''}`} role="dialog" aria-modal="true">
+        <button className="haias-mobile-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>×</button>
+        <a href="#features" style={{ color: '#0f0f2e' }} onClick={() => setMenuOpen(false)}>Features</a>
+        <a href="#contact" style={{ color: '#0f0f2e' }} onClick={() => setMenuOpen(false)}>Contact</a>
+        <a
+          href="https://calendar.app.google/5WEtyn69N7bX3Ppo7"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary"
+          style={{ fontSize: '1rem' }}
+          onClick={() => setMenuOpen(false)}
+        >
+          Book a Demo
+        </a>
+      </div>
+    </>
+  );
+};
 
 const Hero = () => (
   <>
@@ -149,7 +250,7 @@ const Hero = () => (
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      paddingTop: '11rem',
+      paddingTop: '10rem',
       paddingBottom: '5rem',
       position: 'relative',
       overflow: 'hidden',
@@ -164,7 +265,7 @@ const Hero = () => (
         width: '100%',
         maxWidth: '860px',
         margin: '0 auto',
-        padding: '0 2rem',
+        padding: '0 1.25rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -176,7 +277,7 @@ const Hero = () => (
         </div>
 
         <h1 className="fade-in-up fade-in-up-2" style={{
-          fontSize: 'clamp(2.6rem, 6vw, 4.75rem)',
+          fontSize: 'clamp(2.2rem, 7vw, 4.75rem)',
           fontWeight: 900,
           lineHeight: 1.0,
           letterSpacing: '-0.035em',
@@ -187,7 +288,7 @@ const Hero = () => (
           Never miss another
         </h1>
         <h1 className="fade-in-up fade-in-up-2" style={{
-          fontSize: 'clamp(2.6rem, 6vw, 4.75rem)',
+          fontSize: 'clamp(2.2rem, 7vw, 4.75rem)',
           fontWeight: 900,
           lineHeight: 1.05,
           letterSpacing: '-0.035em',
@@ -198,7 +299,7 @@ const Hero = () => (
         </h1>
 
         <p className="fade-in-up fade-in-up-3" style={{
-          fontSize: '1.1rem',
+          fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)',
           color: '#374151',
           maxWidth: '580px',
           lineHeight: 1.7,
@@ -216,6 +317,8 @@ const Hero = () => (
           justifyContent: 'center',
           flexWrap: 'wrap',
           marginBottom: '3rem',
+          width: '100%',
+          maxWidth: '420px',
         }}>
           <a href="https://calendar.app.google/5WEtyn69N7bX3Ppo7" target="_blank" rel="noopener noreferrer" className="btn-primary">Book Your Demo</a>
           <a href="#how-it-works" className="btn-secondary">See How It Works</a>
@@ -227,6 +330,7 @@ const Hero = () => (
           justifyContent: 'center',
           gap: '0.875rem',
           marginBottom: '4.5rem',
+          flexWrap: 'wrap',
         }}>
           <div style={{ display: 'flex' }}>
             {avatars.map((src, i) => (

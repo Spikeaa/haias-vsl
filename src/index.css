@@ -376,6 +376,39 @@ a {
   transform: translateY(-4px);
 }
 
+/* ─── Mobile responsive breakpoints ────────────── */
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+  }
+
+  .marquee-content {
+    gap: 2rem;
+  }
+
+  .marquee::before,
+  .marquee::after {
+    width: 8vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .label-pill {
+    font-size: 0.72rem;
+  }
+}
+
 /* ─── Tron section divider ──────────────────────── */
 .tron-divider {
   height: 1px;

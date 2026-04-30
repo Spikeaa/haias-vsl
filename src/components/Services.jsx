@@ -96,12 +96,10 @@ const Services = () => (
   <section id="features" className="section" style={{
     borderTop: '1px solid rgba(79,70,229,0.08)',
     background: 'linear-gradient(180deg, #ffffff 0%, #f5f7ff 100%)',
-    paddingTop: '9rem',
-    paddingBottom: '9rem',
   }}>
     <div className="container">
 
-      <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
         <div className="label-pill" style={{ marginBottom: '1.5rem' }}>
           <span className="dot" />
           Industries we serve
@@ -131,11 +129,39 @@ const Services = () => (
         </p>
       </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '1.5rem',
-      }}>
+      <style>{`
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+        @media (max-width: 640px) {
+          .services-grid { grid-template-columns: 1fr; }
+        }
+        .services-trust-strip {
+          margin-top: 3rem;
+          padding: 2rem 2.5rem;
+          background: linear-gradient(135deg, rgba(0,200,255,0.06), rgba(79,70,229,0.07), rgba(124,58,237,0.06));
+          border: 1px solid rgba(0,200,255,0.18);
+          border-radius: 20px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+          text-align: center;
+          box-shadow: 0 0 40px rgba(0,200,255,0.06);
+        }
+        @media (max-width: 640px) {
+          .services-trust-strip {
+            padding: 1.75rem 1.5rem;
+            grid-template-columns: 1fr 1fr;
+            display: grid;
+            justify-items: center;
+          }
+        }
+      `}</style>
+      <div className="services-grid">
         {services.map((svc, i) => (
           <div
             key={i}
@@ -162,20 +188,7 @@ const Services = () => (
       </div>
 
       {/* Bottom trust strip */}
-      <div style={{
-        marginTop: '5rem',
-        padding: '2.5rem 3rem',
-        background: 'linear-gradient(135deg, rgba(0,200,255,0.06), rgba(79,70,229,0.07), rgba(124,58,237,0.06))',
-        border: '1px solid rgba(0,200,255,0.18)',
-        borderRadius: '20px',
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '2rem',
-        textAlign: 'center',
-        boxShadow: '0 0 40px rgba(0,200,255,0.06)',
-      }}>
+      <div className="services-trust-strip">
         {[
           { value: '20+', label: 'Active Partners' },
           { value: '3–5 days', label: 'To Go Live' },

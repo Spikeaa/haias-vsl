@@ -25,18 +25,39 @@ const ValueProps = () => (
   <section className="section" style={{
     borderTop: '1px solid rgba(79,70,229,0.08)',
     background: '#ffffff',
-    paddingTop: '9rem',
-    paddingBottom: '9rem',
   }}>
+    <style>{`
+      .vp-header { text-align: center; margin-bottom: 4rem; }
+      .vp-rows { display: flex; flex-direction: column; gap: 6rem; }
+      .vp-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 4rem;
+      }
+      .vp-row.reversed { direction: rtl; }
+      .vp-row.reversed > * { direction: ltr; }
+      @media (max-width: 768px) {
+        .vp-rows { gap: 3.5rem; }
+        .vp-row {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          direction: ltr !important;
+        }
+        .vp-row.reversed > * { direction: ltr; }
+        .vp-row .vp-image { order: -1; }
+      }
+    `}</style>
+
     <div className="container">
 
-      <div style={{ textAlign: 'center', marginBottom: '7rem' }}>
+      <div className="vp-header">
         <div className="label-pill" style={{ marginBottom: '1.5rem' }}>
           <span className="dot" />
           Why it works
         </div>
         <h2 style={{
-          fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)',
+          fontSize: 'clamp(2rem, 4.5vw, 3.5rem)',
           fontWeight: 800,
           color: '#0f0f2e',
           marginBottom: '1.25rem',
@@ -53,25 +74,16 @@ const ValueProps = () => (
             sales funnel.
           </span>
         </h2>
-        <p style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto' }}>
+        <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto' }}>
           A missed call is a missed job. Every unanswered ring is money walking out the door.
           We deploy intelligent systems to capture every opportunity your marketing generates.
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10rem' }}>
+      <div className="vp-rows">
         {valuePropsData.map((prop, index) => (
-          <div
-            key={index}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              alignItems: 'center',
-              gap: '6rem',
-              direction: index % 2 !== 0 ? 'rtl' : 'ltr',
-            }}
-          >
-            <div style={{ direction: 'ltr' }}>
+          <div key={index} className={`vp-row${index % 2 !== 0 ? ' reversed' : ''}`}>
+            <div>
               <div style={{
                 width: '40px',
                 height: '3px',
@@ -80,7 +92,7 @@ const ValueProps = () => (
                 marginBottom: '1.75rem',
               }} />
               <h3 style={{
-                fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)',
+                fontSize: 'clamp(1.4rem, 2.5vw, 2.1rem)',
                 fontWeight: 700,
                 color: '#0f0f2e',
                 letterSpacing: '-0.025em',
@@ -89,10 +101,9 @@ const ValueProps = () => (
               }}>
                 {prop.title}
               </h3>
-              <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: 1.85, marginBottom: '2rem' }}>
+              <p style={{ color: '#4b5563', fontSize: '1rem', lineHeight: 1.85, marginBottom: '2rem' }}>
                 {prop.description}
               </p>
-              {/* Stat callout */}
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -100,7 +111,8 @@ const ValueProps = () => (
                 background: 'linear-gradient(135deg, rgba(79,70,229,0.06), rgba(124,58,237,0.06))',
                 border: '1px solid rgba(79,70,229,0.15)',
                 borderRadius: '12px',
-                padding: '0.875rem 1.5rem',
+                padding: '0.875rem 1.25rem',
+                flexWrap: 'wrap',
               }}>
                 <span style={{
                   fontSize: '1.5rem',
@@ -118,7 +130,7 @@ const ValueProps = () => (
                 </span>
               </div>
             </div>
-            <div style={{ direction: 'ltr' }}>
+            <div className="vp-image">
               <div className="glass-panel" style={{ padding: '10px' }}>
                 <img
                   src={prop.imageSrc}

@@ -38,9 +38,13 @@ const FAQ = () => {
     <section className="section" style={{
       borderTop: '1px solid rgba(79,70,229,0.08)',
       background: 'linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%)',
-      paddingTop: '9rem',
-      paddingBottom: '9rem',
     }}>
+      <style>{`
+        @media (max-width: 640px) {
+          .faq-btn { padding: 1.25rem 1.25rem !important; }
+          .faq-answer { padding: 1rem 1.25rem 1.25rem !important; }
+        }
+      `}</style>
       <div className="container" style={{ maxWidth: '800px' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
@@ -79,12 +83,13 @@ const FAQ = () => {
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : i)}
                   aria-expanded={isOpen}
+                  className="faq-btn"
                   style={{
                     width: '100%',
                     background: isOpen ? 'rgba(79, 70, 229, 0.04)' : 'rgba(255,255,255,0.85)',
                     border: `1px solid ${isOpen ? 'rgba(79, 70, 229, 0.25)' : 'rgba(79,70,229,0.1)'}`,
                     borderRadius: isOpen ? '14px 14px 0 0' : '14px',
-                    padding: '1.625rem 2rem',
+                    padding: '1.5rem 1.75rem',
                     cursor: 'pointer',
                     transition: 'all 0.25s ease',
                     textAlign: 'left',
@@ -121,9 +126,9 @@ const FAQ = () => {
                   </span>
                 </button>
                 {isOpen && (
-                  <p style={{
+                  <p className="faq-answer" style={{
                     marginTop: 0,
-                    padding: '1.125rem 2rem 1.625rem',
+                    padding: '1rem 1.75rem 1.5rem',
                     color: '#374151',
                     lineHeight: 1.8,
                     fontSize: '0.98rem',
